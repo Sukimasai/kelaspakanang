@@ -100,7 +100,6 @@ export default function App() {
               <TextInput
                 value={email}
                 onChangeText={setEmail}
-                placeholder="admin@example.com"
                 placeholderTextColor="#a8a29e"
                 keyboardType="email-address"
                 autoCapitalize="none"
@@ -124,7 +123,6 @@ export default function App() {
                 <TextInput
                   value={password}
                   onChangeText={setPassword}
-                  placeholder="••••••••"
                   placeholderTextColor="#a8a29e"
                   secureTextEntry={!showPassword}
                   className="w-full px-3.5 py-3 bg-white border border-stone-300 rounded-xl text-stone-900 text-sm pr-16"
