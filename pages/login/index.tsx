@@ -10,13 +10,16 @@ import {
 } from "react-native";
 import { StatusBar } from "expo-status-bar";
 
-export default function LoginPage() {
+type Props = {
+  onLogin: () => void;
+};
+
+export default function LoginPage({ onLogin }: Props) {
   const [tab, setTab] = useState("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isRegistered, setIsRegistered] = useState(false);
 
   function changeTab(newTab: string) {
@@ -33,7 +36,7 @@ export default function LoginPage() {
     }
 
     if (email === "admin@example.com" && password === "password123") {
-      setIsLoggedIn(true);
+      onLogin();
     } else {
       setErrorMessage("Wrong email or password");
     }
@@ -52,13 +55,6 @@ export default function LoginPage() {
 
   function handleBack() {
     setIsRegistered(false);
-    setEmail("");
-    setPassword("");
-    setErrorMessage("");
-  }
-
-  function handleLogout() {
-    setIsLoggedIn(false);
     setEmail("");
     setPassword("");
     setErrorMessage("");
@@ -86,42 +82,6 @@ export default function LoginPage() {
     );
   }
 
-  if (isLoggedIn) {
-    return (
-      <View className="flex-1 bg-[#f4f1ea] justify-center px-6">
-        <StatusBar style="dark" />
-
-        <View className="bg-black">
-          <View
-            className="bg-white border-2 border-black p-6 -translate-x-2 -translate-y-2"
-          >
-            <View
-              className="self-start bg-orange-500 border-2 border-black px-3 py-1 mb-6"
-            >
-              <Text className="text-black text-xs font-black tracking-widest">
-                ACCESS GRANTED
-              </Text>
-            </View>
-
-            <Text className="text-black text-5xl font-black mb-2">HELLO.</Text>
-            <Text className="text-neutral-500 text-base mb-8">{email}</Text>
-
-            <View className="bg-black">
-              <TouchableOpacity
-                className="bg-white border-2 border-black py-4 items-center -translate-x-1 -translate-y-1"
-                onPress={handleLogout}
-              >
-                <Text className="text-black text-base font-black tracking-widest">
-                  LOG OUT
-                </Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-      </View>
-    );
-  }
-
   return (
     <KeyboardAvoidingView
       className="flex-1 bg-[#f4f1ea]"
@@ -133,7 +93,6 @@ export default function LoginPage() {
         contentContainerClassName="flex-grow justify-center px-6 py-16"
         keyboardShouldPersistTaps="handled"
       >
-
         <View className="flex-row border-2 border-black mb-8">
           <TouchableOpacity
             className={`flex-1 py-3 items-center ${tab === "login" ? "bg-black" : "bg-white"}`}
