@@ -1,3 +1,4 @@
+import "./global.css";
 import React from "react";
 import LoginPage from "./pages/login";
 
