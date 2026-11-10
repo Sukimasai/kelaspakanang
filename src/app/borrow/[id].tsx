@@ -4,33 +4,60 @@ import {
   Platform,
   ScrollView,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
+import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import books from "../../../data/books.json";
 import ShadowButton from "../../components/ShadowButton";
 import InfoBox from "../../components/InfoBox";
 
+const formatDate = (date: Date | null | undefined) => {
+  if (!date) return "";
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(
+    date.getDate()
+  ).padStart(2, "0")}`;
+};
+
 export default function BorrowPage() {
-  const { id } = useLocalSearchParams<{ id: string }>();
+  const { id } = useLocalSearchParams();
   const book = books.find((item) => item.id === Number(id));
-  const [pickupDate, setPickupDate] = useState("");
-  const [returnDate, setReturnDate] = useState("");
+  
+  const [pickupDate, setPickupDate] = useState<Date | null>(null);
+  const [returnDate, setReturnDate] = useState<Date | null>(null);
+  
+  const [showPickup, setShowPickup] = useState(false);
+  const [showReturn, setShowReturn] = useState(false);
+  
   const [errorMessage, setErrorMessage] = useState("");
   const [isConfirmed, setIsConfirmed] = useState(false);
 
   function handleConfirm() {
     setErrorMessage("");
 
-    if (pickupDate === "" || returnDate === "") {
+    if (!pickupDate || !returnDate) {
       setErrorMessage("Please fill in both dates");
+      return;
+    }
+
+    if (returnDate < pickupDate) {
+      setErrorMessage("Return date cannot be before pickup date");
       return;
     }
 
     setIsConfirmed(true);
   }
+
+  const onChangePickup = (event: DateTimePickerEvent, selectedDate?: Date) => {
+    if (Platform.OS === "android") setShowPickup(false);
+    if (selectedDate) setPickupDate(selectedDate);
+  };
+
+  const onChangeReturn = (event: DateTimePickerEvent, selectedDate?: Date) => {
+    if (Platform.OS === "android") setShowReturn(false);
+    if (selectedDate) setReturnDate(selectedDate);
+  };
 
   if (isConfirmed) {
     return (
@@ -42,8 +69,8 @@ export default function BorrowPage() {
 
         <InfoBox
           rows={[
-            { label: "PICKUP", value: pickupDate },
-            { label: "RETURN", value: returnDate },
+            { label: "PICKUP", value: formatDate(pickupDate) },
+            { label: "RETURN", value: formatDate(returnDate) },
           ]}
           className="mb-8"
         />
@@ -83,26 +110,46 @@ export default function BorrowPage() {
         <Text className="text-black text-xs font-black tracking-widest mb-2">
           PICKUP DATE
         </Text>
-        <TextInput
-          className="bg-white border-2 border-black text-black text-base px-4 py-3.5 mb-6"
-          value={pickupDate}
-          onChangeText={setPickupDate}
-          placeholder="YYYY-MM-DD"
-          placeholderTextColor="#a3a3a3"
-          keyboardType="numbers-and-punctuation"
-        />
+        <TouchableOpacity
+          onPress={() => setShowPickup(true)}
+          className="bg-white border-2 border-black px-4 py-3.5 mb-6 justify-center"
+        >
+          <Text className={pickupDate ? "text-black text-base" : "text-[#a3a3a3] text-base"}>
+            {pickupDate ? formatDate(pickupDate) : "Select Pickup Date"}
+          </Text>
+        </TouchableOpacity>
+
+        {showPickup && (
+          <DateTimePicker
+            value={pickupDate || new Date()}
+            mode="date"
+            display={Platform.OS === "ios" ? "spinner" : "default"}
+            onChange={onChangePickup}
+            minimumDate={new Date()}
+          />
+        )}
 
         <Text className="text-black text-xs font-black tracking-widest mb-2">
           RETURN DATE
         </Text>
-        <TextInput
-          className="bg-white border-2 border-black text-black text-base px-4 py-3.5"
-          value={returnDate}
-          onChangeText={setReturnDate}
-          placeholder="YYYY-MM-DD"
-          placeholderTextColor="#a3a3a3"
-          keyboardType="numbers-and-punctuation"
-        />
+        <TouchableOpacity
+          onPress={() => setShowReturn(true)}
+          className="bg-white border-2 border-black px-4 py-3.5 justify-center"
+        >
+          <Text className={returnDate ? "text-black text-base" : "text-[#a3a3a3] text-base"}>
+            {returnDate ? formatDate(returnDate) : "Select Return Date"}
+          </Text>
+        </TouchableOpacity>
+
+        {showReturn && (
+          <DateTimePicker
+            value={returnDate || (pickupDate || new Date())}
+            mode="date"
+            display={Platform.OS === "ios" ? "spinner" : "default"}
+            onChange={onChangeReturn}
+            minimumDate={pickupDate || new Date()}
+          />
+        )}
 
         {errorMessage !== "" && (
           <View className="bg-red-500 border-2 border-black px-4 py-3 mt-4">
