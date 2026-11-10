@@ -8,13 +8,9 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from "react-native";
-import { StatusBar } from "expo-status-bar";
+import { router } from "expo-router";
 
-type Props = {
-  onLogin: () => void;
-};
-
-export default function LoginPage({ onLogin }: Props) {
+export default function LoginPage() {
   const [tab, setTab] = useState("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -36,7 +32,7 @@ export default function LoginPage({ onLogin }: Props) {
     }
 
     if (email === "admin@example.com" && password === "password123") {
-      onLogin();
+      router.replace("/home");
     } else {
       setErrorMessage("Wrong email or password");
     }
@@ -63,7 +59,6 @@ export default function LoginPage({ onLogin }: Props) {
   if (isRegistered) {
     return (
       <View className="flex-1 bg-[#f4f1ea] justify-center px-6">
-        <StatusBar style="dark" />
         <Text className="text-black text-3xl font-black mb-8">
           {email} registered!
         </Text>
@@ -87,8 +82,6 @@ export default function LoginPage({ onLogin }: Props) {
       className="flex-1 bg-[#f4f1ea]"
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
-      <StatusBar style="dark" />
-
       <ScrollView
         contentContainerClassName="flex-grow justify-center px-6 py-16"
         keyboardShouldPersistTaps="handled"

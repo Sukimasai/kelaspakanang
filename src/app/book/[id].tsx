@@ -1,44 +1,34 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
-  BackHandler,
   Image,
   ScrollView,
   Text,
   TouchableOpacity,
   View,
 } from "react-native";
-import { StatusBar } from "expo-status-bar";
-import { Book } from "../../types/book";
+import { router, useLocalSearchParams } from "expo-router";
+import books from "../../../data/books.json";
 
-type Props = {
-  book: Book;
-  onBack: () => void;
-  onBorrow: () => void;
-};
+export default function BookPage() {
+  const { id } = useLocalSearchParams<{ id: string }>();
+  const book = books.find((item) => item.id === Number(id));
 
-export default function BookPage({ book, onBack, onBorrow }: Props) {
-  useEffect(() => {
-    const subscription = BackHandler.addEventListener(
-      "hardwareBackPress",
-      () => {
-        onBack();
-        return true;
-      }
+  if (!book) {
+    return (
+      <View className="flex-1 bg-[#f4f1ea] justify-center px-6">
+        <Text className="text-black text-2xl font-black">Book not found</Text>
+      </View>
     );
-
-    return () => subscription.remove();
-  }, [onBack]);
+  }
 
   return (
     <ScrollView
       className="flex-1 bg-[#f4f1ea]"
       contentContainerClassName="px-6 pt-16 pb-10"
     >
-      <StatusBar style="dark" />
-
       <TouchableOpacity
         className="self-start border-2 border-black px-3 py-1 mb-8"
-        onPress={onBack}
+        onPress={() => router.back()}
       >
         <Text className="text-black text-xs font-black tracking-widest">
           ← BACK
@@ -82,7 +72,7 @@ export default function BookPage({ book, onBack, onBorrow }: Props) {
       <View className="bg-black mt-10">
         <TouchableOpacity
           className="bg-orange-500 border-2 border-black py-4 items-center -translate-x-1 -translate-y-1"
-          onPress={onBorrow}
+          onPress={() => router.push(`/borrow/${book.id}`)}
         >
           <Text className="text-black text-base font-black tracking-widest">
             BORROW →

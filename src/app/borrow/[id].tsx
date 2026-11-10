@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
-  BackHandler,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
@@ -9,31 +8,16 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { StatusBar } from "expo-status-bar";
-import { Book } from "../../types/book";
+import { router, useLocalSearchParams } from "expo-router";
+import books from "../../../data/books.json";
 
-type Props = {
-  book: Book;
-  onBack: () => void;
-};
-
-export default function BorrowPage({ book, onBack }: Props) {
+export default function BorrowPage() {
+  const { id } = useLocalSearchParams<{ id: string }>();
+  const book = books.find((item) => item.id === Number(id));
   const [pickupDate, setPickupDate] = useState("");
   const [returnDate, setReturnDate] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [isConfirmed, setIsConfirmed] = useState(false);
-
-  useEffect(() => {
-    const subscription = BackHandler.addEventListener(
-      "hardwareBackPress",
-      () => {
-        onBack();
-        return true;
-      }
-    );
-
-    return () => subscription.remove();
-  }, [onBack]);
 
   function handleConfirm() {
     setErrorMessage("");
@@ -49,11 +33,9 @@ export default function BorrowPage({ book, onBack }: Props) {
   if (isConfirmed) {
     return (
       <View className="flex-1 bg-[#f4f1ea] justify-center px-6">
-        <StatusBar style="dark" />
-
         <Text className="text-black text-5xl font-black">CONFIRMED!</Text>
         <Text className="text-neutral-500 text-base mt-2 mb-8">
-          {book.title}
+          {book?.title}
         </Text>
 
         <View className="border-2 border-black bg-white mb-8">
@@ -74,7 +56,7 @@ export default function BorrowPage({ book, onBack }: Props) {
         <View className="bg-black">
           <TouchableOpacity
             className="bg-white border-2 border-black py-4 items-center -translate-x-1 -translate-y-1"
-            onPress={onBack}
+            onPress={() => router.back()}
           >
             <Text className="text-black text-base font-black tracking-widest">
               ← BACK
@@ -90,15 +72,13 @@ export default function BorrowPage({ book, onBack }: Props) {
       className="flex-1 bg-[#f4f1ea]"
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
-      <StatusBar style="dark" />
-
       <ScrollView
         contentContainerClassName="flex-grow px-6 pt-16 pb-10"
         keyboardShouldPersistTaps="handled"
       >
         <TouchableOpacity
           className="self-start border-2 border-black px-3 py-1 mb-8"
-          onPress={onBack}
+          onPress={() => router.back()}
         >
           <Text className="text-black text-xs font-black tracking-widest">
             ← BACK
@@ -107,7 +87,7 @@ export default function BorrowPage({ book, onBack }: Props) {
 
         <Text className="text-black text-6xl font-black">BORROW.</Text>
         <Text className="text-orange-500 text-lg font-black mb-10">
-          {book.title}
+          {book?.title}
         </Text>
 
         <Text className="text-black text-xs font-black tracking-widest mb-2">
