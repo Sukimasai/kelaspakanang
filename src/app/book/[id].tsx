@@ -9,6 +9,7 @@ import {
 import { router, useLocalSearchParams } from "expo-router";
 import books from "../../../data/books.json";
 import ShadowButton from "../../components/ShadowButton";
+import InfoBox from "../../components/InfoBox";
 
 export default function BookPage() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -48,20 +49,13 @@ export default function BookPage() {
         by {book.author}
       </Text>
 
-      <View className="border-2 border-black bg-white mb-8">
-        <View className="p-4 border-b-2 border-black">
-          <Text className="text-neutral-500 text-xs font-black tracking-widest mb-1">
-            GENRE
-          </Text>
-          <Text className="text-black text-lg font-black">{book.genre}</Text>
-        </View>
-        <View className="p-4">
-          <Text className="text-neutral-500 text-xs font-black tracking-widest mb-1">
-            ISBN
-          </Text>
-          <Text className="text-black text-lg font-black">{book.isbn}</Text>
-        </View>
-      </View>
+      <InfoBox
+        rows={[
+          { label: "GENRE", value: book.genre },
+          { label: "ISBN", value: book.isbn },
+        ]}
+        className="mb-8"
+      />
 
       <Text className="text-black text-xs font-black tracking-widest mb-3">
         SYNOPSIS

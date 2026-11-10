@@ -11,6 +11,7 @@ import {
 import { router, useLocalSearchParams } from "expo-router";
 import books from "../../../data/books.json";
 import ShadowButton from "../../components/ShadowButton";
+import InfoBox from "../../components/InfoBox";
 
 export default function BorrowPage() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -39,20 +40,13 @@ export default function BorrowPage() {
           {book?.title}
         </Text>
 
-        <View className="border-2 border-black bg-white mb-8">
-          <View className="p-4 border-b-2 border-black">
-            <Text className="text-neutral-500 text-xs font-black tracking-widest mb-1">
-              PICKUP
-            </Text>
-            <Text className="text-black text-lg font-black">{pickupDate}</Text>
-          </View>
-          <View className="p-4">
-            <Text className="text-neutral-500 text-xs font-black tracking-widest mb-1">
-              RETURN
-            </Text>
-            <Text className="text-black text-lg font-black">{returnDate}</Text>
-          </View>
-        </View>
+        <InfoBox
+          rows={[
+            { label: "PICKUP", value: pickupDate },
+            { label: "RETURN", value: returnDate },
+          ]}
+          className="mb-8"
+        />
 
         <ShadowButton
           label="← BACK"
