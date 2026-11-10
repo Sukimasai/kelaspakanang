@@ -1,7 +1,8 @@
 import React from "react";
-import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { router } from "expo-router";
 import books from "../../data/books.json";
+import BookCard from "../components/BookCard";
 
 export default function HomePage() {
   return (
@@ -19,23 +20,15 @@ export default function HomePage() {
           </Text>
         </TouchableOpacity>
       </View>
-    
+
       <View className="flex-row flex-wrap justify-between">
         {books.map((book) => (
-          <View key={book.id} className="w-[47%] bg-black mb-6">
-            <TouchableOpacity
-              className="flex-1 bg-white border-2 border-black -translate-x-1.5 -translate-y-1.5"
-              onPress={() => router.push(`/book/${book.id}`)}
-            >
-              <Image
-                source={{ uri: book.image }}
-                className="w-full h-56 border-b-2 border-black"
-              />
-              <Text className="text-black text-base font-black p-3">
-                {book.title}
-              </Text>
-            </TouchableOpacity>
-          </View>
+          <BookCard
+            key={book.id}
+            title={book.title}
+            image={book.image}
+            onPress={() => router.push(`/book/${book.id}`)}
+          />
         ))}
       </View>
     </ScrollView>
