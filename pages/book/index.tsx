@@ -13,9 +13,10 @@ import { Book } from "../../types/book";
 type Props = {
   book: Book;
   onBack: () => void;
+  onBorrow: () => void;
 };
 
-export default function BookPage({ book, onBack }: Props) {
+export default function BookPage({ book, onBack, onBorrow }: Props) {
   useEffect(() => {
     const subscription = BackHandler.addEventListener(
       "hardwareBackPress",
@@ -77,6 +78,17 @@ export default function BookPage({ book, onBack }: Props) {
       <Text className="text-black text-base leading-7">
         {book.synopsis}
       </Text>
+
+      <View className="bg-black mt-10">
+        <TouchableOpacity
+          className="bg-orange-500 border-2 border-black py-4 items-center -translate-x-1 -translate-y-1"
+          onPress={onBorrow}
+        >
+          <Text className="text-black text-base font-black tracking-widest">
+            BORROW →
+          </Text>
+        </TouchableOpacity>
+      </View>
     </ScrollView>
   );
 }

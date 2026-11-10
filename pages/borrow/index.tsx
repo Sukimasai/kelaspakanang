@@ -1,0 +1,156 @@
+import React, { useEffect, useState } from "react";
+import {
+  BackHandler,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import { StatusBar } from "expo-status-bar";
+import { Book } from "../../types/book";
+
+type Props = {
+  book: Book;
+  onBack: () => void;
+};
+
+export default function BorrowPage({ book, onBack }: Props) {
+  const [pickupDate, setPickupDate] = useState("");
+  const [returnDate, setReturnDate] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isConfirmed, setIsConfirmed] = useState(false);
+
+  useEffect(() => {
+    const subscription = BackHandler.addEventListener(
+      "hardwareBackPress",
+      () => {
+        onBack();
+        return true;
+      }
+    );
+
+    return () => subscription.remove();
+  }, [onBack]);
+
+  function handleConfirm() {
+    setErrorMessage("");
+
+    if (pickupDate === "" || returnDate === "") {
+      setErrorMessage("Please fill in both dates");
+      return;
+    }
+
+    setIsConfirmed(true);
+  }
+
+  if (isConfirmed) {
+    return (
+      <View className="flex-1 bg-[#f4f1ea] justify-center px-6">
+        <StatusBar style="dark" />
+
+        <Text className="text-black text-5xl font-black">CONFIRMED!</Text>
+        <Text className="text-neutral-500 text-base mt-2 mb-8">
+          {book.title}
+        </Text>
+
+        <View className="border-2 border-black bg-white mb-8">
+          <View className="p-4 border-b-2 border-black">
+            <Text className="text-neutral-500 text-xs font-black tracking-widest mb-1">
+              PICKUP
+            </Text>
+            <Text className="text-black text-lg font-black">{pickupDate}</Text>
+          </View>
+          <View className="p-4">
+            <Text className="text-neutral-500 text-xs font-black tracking-widest mb-1">
+              RETURN
+            </Text>
+            <Text className="text-black text-lg font-black">{returnDate}</Text>
+          </View>
+        </View>
+
+        <View className="bg-black">
+          <TouchableOpacity
+            className="bg-white border-2 border-black py-4 items-center -translate-x-1 -translate-y-1"
+            onPress={onBack}
+          >
+            <Text className="text-black text-base font-black tracking-widest">
+              ← BACK
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    );
+  }
+
+  return (
+    <KeyboardAvoidingView
+      className="flex-1 bg-[#f4f1ea]"
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
+      <StatusBar style="dark" />
+
+      <ScrollView
+        contentContainerClassName="flex-grow px-6 pt-16 pb-10"
+        keyboardShouldPersistTaps="handled"
+      >
+        <TouchableOpacity
+          className="self-start border-2 border-black px-3 py-1 mb-8"
+          onPress={onBack}
+        >
+          <Text className="text-black text-xs font-black tracking-widest">
+            ← BACK
+          </Text>
+        </TouchableOpacity>
+
+        <Text className="text-black text-6xl font-black">BORROW.</Text>
+        <Text className="text-orange-500 text-lg font-black mb-10">
+          {book.title}
+        </Text>
+
+        <Text className="text-black text-xs font-black tracking-widest mb-2">
+          PICKUP DATE
+        </Text>
+        <TextInput
+          className="bg-white border-2 border-black text-black text-base px-4 py-3.5 mb-6"
+          value={pickupDate}
+          onChangeText={setPickupDate}
+          placeholder="YYYY-MM-DD"
+          placeholderTextColor="#a3a3a3"
+          keyboardType="numbers-and-punctuation"
+        />
+
+        <Text className="text-black text-xs font-black tracking-widest mb-2">
+          RETURN DATE
+        </Text>
+        <TextInput
+          className="bg-white border-2 border-black text-black text-base px-4 py-3.5"
+          value={returnDate}
+          onChangeText={setReturnDate}
+          placeholder="YYYY-MM-DD"
+          placeholderTextColor="#a3a3a3"
+          keyboardType="numbers-and-punctuation"
+        />
+
+        {errorMessage !== "" && (
+          <View className="bg-red-500 border-2 border-black px-4 py-3 mt-4">
+            <Text className="text-white text-sm font-bold">{errorMessage}</Text>
+          </View>
+        )}
+
+        <View className="bg-black mt-8">
+          <TouchableOpacity
+            className="bg-orange-500 border-2 border-black py-4 items-center -translate-x-1 -translate-y-1"
+            onPress={handleConfirm}
+          >
+            <Text className="text-black text-base font-black tracking-widest">
+              CONFIRM →
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
+  );
+}
