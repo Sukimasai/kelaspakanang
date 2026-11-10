@@ -1,0 +1,56 @@
+[
+  {
+    "id": 1,
+    "title": "The Great Gatsby",
+    "image": "https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=800&auto=format&fit=crop",
+    "author": "F. Scott Fitzgerald",
+    "genre": "Classic, Fiction",
+    "isbn": "978-0743273565",
+    "synopsis": "Berlatar di Long Island pada era Jazz tahun 1922, novel ini mengisahkan interaksi Nick Carraway dengan jutawan misterius Jay Gatsby dan obsesi Gatsby untuk kembali bersatu dengan mantan kekasihnya, Daisy Buchanan."
+  },
+  {
+    "id": 2,
+    "title": "1984",
+    "image": "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?q=80&w=800&auto=format&fit=crop",
+    "author": "George Orwell",
+    "genre": "Dystopian, Sci-Fi",
+    "isbn": "978-0451524935",
+    "synopsis": "Sebuah novel distopia yang menggambarkan masyarakat totaliter di bawah pengawasan ketat 'Big Brother'. Winston Smith bergulat dengan penindasan di Oceania, tempat di mana pemikiran independen dianggap sebagai kejahatan berat."
+  },
+  {
+    "id": 3,
+    "title": "To Kill a Mockingbird",
+    "image": "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=800&auto=format&fit=crop",
+    "author": "Harper Lee",
+    "genre": "Southern Gothic, Drama",
+    "isbn": "978-0060935467",
+    "synopsis": "Novel ini mengeksplorasi isu ketidakadilan rasial dan hilangnya kepolosan di wilayah Selatan Amerika, diceritakan melalui kacamata seorang gadis muda bernama Scout Finch saat ayahnya, Atticus, membela seorang pria kulit hitam yang dituduh secara tidak adil."
+  },
+  {
+    "id": 4,
+    "title": "Dune",
+    "image": "https://images.unsplash.com/photo-1532012197267-da84d127e765?q=80&w=800&auto=format&fit=crop",
+    "author": "Frank Herbert",
+    "genre": "Science Fiction, Fantasy",
+    "isbn": "978-0441172719",
+    "synopsis": "Kisah fiksi ilmiah epik tentang Paul Atreides, pewaris keluarga bangsawan yang ditugaskan untuk menguasai Arrakis, sebuah planet padang pasir yang merupakan satu-satunya sumber rempah-rempah paling berharga di alam semesta."
+  },
+  {
+    "id": 5,
+    "title": "The Hobbit",
+    "image": "https://images.unsplash.com/photo-1629196914275-f04bf4a905a8?q=80&w=800&auto=format&fit=crop",
+    "author": "J.R.R. Tolkien",
+    "genre": "High Fantasy, Adventure",
+    "isbn": "978-0547928227",
+    "synopsis": "Bilbo Baggins, seorang hobbit yang menyukai kehidupan tenang, tiba-tiba terseret dalam petualangan epik bersama sekelompok kurcaci dan penyihir Gandalf untuk merebut kembali harta karun dari naga Smaug."
+  },
+  {
+    "id": 6,
+    "title": "Atomic Habits",
+    "image": "https://images.unsplash.com/photo-1589998059171-98c47f52f3ea?q=80&w=800&auto=format&fit=crop",
+    "author": "James Clear",
+    "genre": "Self-Help, Psychology",
+    "isbn": "978-0735211292",
+    "synopsis": "Buku ini menawarkan kerangka kerja yang praktis untuk meningkatkan kualitas hidup Anda setiap hari. James Clear mengungkapkan strategi jitu untuk membentuk kebiasaan baik, menghilangkan kebiasaan buruk, dan menguasai tindakan-tindakan kecil yang menghasilkan perubahan besar."
+  }
+]
