@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
 import books from "../../../data/books.json";
+import ShadowButton from "../../components/ShadowButton";
 
 export default function BorrowPage() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -53,16 +54,11 @@ export default function BorrowPage() {
           </View>
         </View>
 
-        <View className="bg-black">
-          <TouchableOpacity
-            className="bg-white border-2 border-black py-4 items-center -translate-x-1 -translate-y-1"
-            onPress={() => router.back()}
-          >
-            <Text className="text-black text-base font-black tracking-widest">
-              ← BACK
-            </Text>
-          </TouchableOpacity>
-        </View>
+        <ShadowButton
+          label="← BACK"
+          color="white"
+          onPress={() => router.back()}
+        />
       </View>
     );
   }
@@ -120,16 +116,11 @@ export default function BorrowPage() {
           </View>
         )}
 
-        <View className="bg-black mt-8">
-          <TouchableOpacity
-            className="bg-orange-500 border-2 border-black py-4 items-center -translate-x-1 -translate-y-1"
-            onPress={handleConfirm}
-          >
-            <Text className="text-black text-base font-black tracking-widest">
-              CONFIRM →
-            </Text>
-          </TouchableOpacity>
-        </View>
+        <ShadowButton
+          label="CONFIRM →"
+          onPress={handleConfirm}
+          className="mt-8"
+        />
       </ScrollView>
     </KeyboardAvoidingView>
   );

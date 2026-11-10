@@ -9,6 +9,7 @@ import {
   Platform,
 } from "react-native";
 import { router } from "expo-router";
+import ShadowButton from "../components/ShadowButton";
 
 export default function LoginPage() {
   const [tab, setTab] = useState("login");
@@ -63,16 +64,11 @@ export default function LoginPage() {
           {email} registered!
         </Text>
 
-        <View className="bg-black">
-          <TouchableOpacity
-            className="bg-white border-2 border-black py-4 items-center -translate-x-1 -translate-y-1"
-            onPress={handleBack}
-          >
-            <Text className="text-black text-base font-black tracking-widest">
-              ← BACK
-            </Text>
-          </TouchableOpacity>
-        </View>
+        <ShadowButton
+          label="← BACK"
+          color="white"
+          onPress={handleBack}
+        />
       </View>
     );
   }
@@ -159,16 +155,11 @@ export default function LoginPage() {
           </View>
         )}
 
-        <View className="bg-black mt-8">
-          <TouchableOpacity
-            className="bg-orange-500 border-2 border-black py-4 items-center -translate-x-1 -translate-y-1"
-            onPress={tab === "login" ? handleLogin : handleRegister}
-          >
-            <Text className="text-black text-base font-black tracking-widest">
-              {tab === "login" ? "LOG IN →" : "REGISTER →"}
-            </Text>
-          </TouchableOpacity>
-        </View>
+        <ShadowButton
+          label={tab === "login" ? "LOG IN →" : "REGISTER →"}
+          onPress={tab === "login" ? handleLogin : handleRegister}
+          className="mt-8"
+        />
 
         {tab === "login" && (
           <View className="border-2 border-dashed border-black p-4 mt-10">

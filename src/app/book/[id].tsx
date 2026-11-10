@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
 import books from "../../../data/books.json";
+import ShadowButton from "../../components/ShadowButton";
 
 export default function BookPage() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -69,16 +70,11 @@ export default function BookPage() {
         {book.synopsis}
       </Text>
 
-      <View className="bg-black mt-10">
-        <TouchableOpacity
-          className="bg-orange-500 border-2 border-black py-4 items-center -translate-x-1 -translate-y-1"
-          onPress={() => router.push(`/borrow/${book.id}`)}
-        >
-          <Text className="text-black text-base font-black tracking-widest">
-            BORROW →
-          </Text>
-        </TouchableOpacity>
-      </View>
+      <ShadowButton
+        label="BORROW →"
+        onPress={() => router.push(`/borrow/${book.id}`)}
+        className="mt-10"
+      />
     </ScrollView>
   );
 }
